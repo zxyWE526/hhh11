@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* 朱鹮酒业主题色 */
+:root {
+  /* 主色 - 清新绿色系 */
+  --zhuohuan-green-50: #F0F7F2;
+  --zhuohuan-green-100: #E0F0E5;
+  --zhuohuan-green-200: #C0E0CA;
+  --zhuohuan-green-300: #90C8A0;
+  --zhuohuan-green-400: #60B076;
+  --zhuohuan-green-500: #4A8C60;
+  --zhuohuan-green-600: #3D7550;
+  --zhuohuan-green-700: #2D5F40;
+  --zhuohuan-green-800: #1F4830;
+  --zhuohuan-green-900: #143624;
+  
+  /* 强调色 - 金色系 */
+  --zhuohuan-gold-50: #FFFDF5;
+  --zhuohuan-gold-100: #FFF9E0;
+  --zhuohuan-gold-200: #FFF0C0;
+  --zhuohuan-gold-300: #FFE090;
+  --zhuohuan-gold-400: #FFD060;
+  --zhuohuan-gold-500: #FFC030;
+  --zhuohuan-gold-600: #D4AF37;
+  --zhuohuan-gold-700: #B8962E;
+  --zhuohuan-gold-800: #9C7824;
+  --zhuohuan-gold-900: #785C1C;
+  
+  /* 中性色 */
+  --zhuohuan-neutral-50: #F9FAFB;
+  --zhuohuan-neutral-100: #F3F4F6;
+  --zhuohuan-neutral-200: #E5E7EB;
+  --zhuohuan-neutral-300: #D1D5DB;
+  --zhuohuan-neutral-400: #9CA3AF;
+  --zhuohuan-neutral-500: #6B7280;
+  --zhuohuan-neutral-600: #4B5563;
+  --zhuohuan-neutral-700: #374151;
+  --zhuohuan-neutral-800: #1F2937;
+  --zhuohuan-neutral-900: #111827;
+}
+
+/* 自定义样式 */
+body {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(180deg, var(--zhuohuan-green-50) 0%, #FFFFFF 50%, var(--zhuohuan-green-50) 100%);
+}
+
+/* 普通圆角 - 移除有机曲线效果 */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(45, 95, 64, 0.2);
+}
+
+/* 按钮悬停效果 */
+.btn-huangjiu {
+  background: linear-gradient(135deg, var(--zhuohuan-green-600) 0%, var(--zhuohuan-green-500) 100%);
+  transition: all 0.3s ease;
+}
+
+.btn-huangjiu:hover {
+  background: linear-gradient(135deg, var(--zhuohuan-green-700) 0%, var(--zhuohuan-green-600) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(45, 95, 64, 0.3);
+}
+
+/* 金色边框 */
+.border-gold {
+  border-color: var(--zhuohuan-gold-500);
+}
+
+/* 文字渐变 */
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--zhuohuan-gold-400) 0%, var(--zhuohuan-gold-600) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-green {
+  background: linear-gradient(135deg, var(--zhuohuan-green-600) 0%, var(--zhuohuan-green-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 轮播图样式 */
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+/* 导航栏样式 */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--zhuohuan-gold-500);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--zhuohuan-green-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--zhuohuan-green-400);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--zhuohuan-green-500);
+}
+
+/* 叶子装饰 */
+.leaf-decoration {
+  position: absolute;
+  pointer-events: none;
+}
+
+.leaf {
+  fill: var(--zhuohuan-green-400);
+  opacity: 0.1;
+}
