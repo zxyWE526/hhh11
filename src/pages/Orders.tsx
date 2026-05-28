@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface Order {
   id: string;
@@ -11,14 +12,19 @@ interface Order {
   total: number;
   status: string;
   createdAt: string;
+  address?: string;
+  phone?: string;
+  name?: string;
 }
 
 export const Orders: React.FC = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [showDetail, setShowDetail] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const user = JSON.parse(localStorage.getItem('zhuohuan_user') || '{}');
 
-  useEffect(() => {
+  const loadOrders = () => {
     if (!user.username) {
       navigate('/login');
       return;
@@ -26,6 +32,11 @@ export const Orders: React.FC = () => {
     const allOrders = JSON.parse(localStorage.getItem('zhuohuan_orders') || '[]');
     const userOrders = allOrders.filter((o: Order) => o.user === user.username);
     setOrders(userOrders);
+  };
+
+  useEffect(() => {
+    loadOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.username, navigate]);
 
   const getStatusText = (status: string) => {
@@ -48,6 +59,15 @@ export const Orders: React.FC = () => {
       cancelled: 'bg-red-500'
     };
     return colorMap[status] || 'bg-gray-500';
+  };
+
+  const handleCancelOrder = (orderId: string) => {
+    const allOrders = JSON.parse(localStorage.getItem('zhuohuan_orders') || '[]');
+    const updated = allOrders.map((o: Order) =>
+      o.id === orderId ? { ...o, status: 'cancelled' } : o
+    );
+    localStorage.setItem('zhuohuan_orders', JSON.stringify(updated));
+    loadOrders();
   };
 
   if (orders.length === 0) {
@@ -105,11 +125,22 @@ export const Orders: React.FC = () => {
                 </div>
 
                 <div className="flex gap-4 mt-4">
-                  <Button variant="outline" className="flex-1 border-green-600 text-green-600">
+                  <Button
+                    variant="outline"
+                    className="flex-1 border-green-600 text-green-600 hover:bg-green-50"
+                    onClick={() => {
+                      setSelectedOrder(order);
+                      setShowDetail(true);
+                    }}
+                  >
                     查看详情
                   </Button>
                   {order.status === 'pending' && (
-                    <Button variant="outline" className="flex-1 border-red-300 text-red-600">
+                    <Button
+                      variant="outline"
+                      className="flex-1 border-red-300 text-red-600 hover:bg-red-50"
+                      onClick={() => handleCancelOrder(order.id)}
+                    >
                       取消订单
                     </Button>
                   )}
@@ -119,6 +150,56 @@ export const Orders: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Order Detail Dialog */}
+      <Dialog open={showDetail} onOpenChange={setShowDetail}>
+        <DialogContent className="max-w-lg bg-white text-gray-900">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-gray-800">订单详情</DialogTitle>
+          </DialogHeader>
+          {selectedOrder && (
+            <div className="space-y-4 mt-4">
+              <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                <p className="text-sm"><span className="text-gray-500">订单编号：</span><span className="font-medium">{selectedOrder.id}</span></p>
+                <p className="text-sm"><span className="text-gray-500">下单时间：</span><span className="font-medium">{new Date(selectedOrder.createdAt).toLocaleString('zh-CN')}</span></p>
+                <p className="text-sm"><span className="text-gray-500">订单状态：</span>
+                  <Badge className={`${getStatusColor(selectedOrder.status)} text-white ml-1`}>
+                    {getStatusText(selectedOrder.status)}
+                  </Badge>
+                </p>
+                {selectedOrder.name && (
+                  <p className="text-sm"><span className="text-gray-500">收货人：</span><span className="font-medium">{selectedOrder.name}</span></p>
+                )}
+                {selectedOrder.phone && (
+                  <p className="text-sm"><span className="text-gray-500">联系电话：</span><span className="font-medium">{selectedOrder.phone}</span></p>
+                )}
+                {selectedOrder.address && (
+                  <p className="text-sm"><span className="text-gray-500">收货地址：</span><span className="font-medium">{selectedOrder.address}</span></p>
+                )}
+              </div>
+
+              <h4 className="font-bold text-gray-800">商品清单</h4>
+              <div className="space-y-3">
+                {selectedOrder.items.map((item: any, index: number) => (
+                  <div key={index} className="flex gap-3 pb-3 border-b last:border-0">
+                    <img src={item.product.image} alt={item.product.name} className="w-14 h-14 object-cover rounded" />
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-800">{item.product.name}</p>
+                      <p className="text-sm text-gray-500">x {item.quantity}</p>
+                      <p className="text-green-600 font-bold">¥{item.product.price * item.quantity}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t pt-4 flex justify-between items-center">
+                <span className="text-lg font-bold text-gray-800">实付款</span>
+                <span className="text-2xl font-bold text-green-600">¥{selectedOrder.total}</span>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
