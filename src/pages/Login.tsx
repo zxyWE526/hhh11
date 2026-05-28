@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,53 +14,91 @@ export const Login: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [userRole, setUserRole] = useState('');
+
+  const getUserInfo = (username: string) => {
+    const stored = JSON.parse(localStorage.getItem('zhuohuan_user') || '{}');
+    if (stored.username === username) return stored;
+    return null;
+  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-
     if (!formData.username.trim()) {
       newErrors.username = '请输入用户名或邮箱';
     }
-
     if (!formData.password) {
       newErrors.password = '请输入密码';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 800));
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const userInfo = getUserInfo(formData.username);
+    const role = userInfo?.role || 'user';
+    setUserRole(role);
 
-    // Mock authentication (always succeed for demo)
     localStorage.setItem('zhuohuan_user', JSON.stringify({
       username: formData.username,
-      email: formData.username.includes('@') ? formData.username : 'user@example.com'
+      email: formData.username.includes('@') ? formData.username : (userInfo?.email || ''),
+      phone: userInfo?.phone || '',
+      role
     }));
     localStorage.setItem('zhuohuan_token', 'mock_token_' + Date.now());
 
     setIsSubmitting(false);
-    alert('登录成功！');
-    navigate('/');
+    setLoginSuccess(true);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
+
+  useEffect(() => {
+    if (loginSuccess) {
+      const timer = setTimeout(() => navigate('/'), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [loginSuccess, navigate]);
+
+  if (loginSuccess) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex items-center justify-center py-12 px-4">
+        <Card className="max-w-md w-full border-0 shadow-2xl">
+          <CardContent className="p-8 text-center">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center bg-green-100">
+              <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">登录成功</h2>
+            <div className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${
+              userRole === 'vip' ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-700'
+            }`}>
+              {userRole === 'vip' ? (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16l-6.4 4.8L8 14l-6-4.8h7.6z" />
+                  </svg>
+                  VIP 用户
+                </>
+              ) : '普通用户'}
+            </div>
+            <p className="text-gray-500">即将跳转首页...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex items-center justify-center py-12 px-4">

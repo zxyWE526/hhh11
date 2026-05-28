@@ -12,7 +12,8 @@ export const Register: React.FC = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    phone: ''
+    phone: '',
+    role: 'user'
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,7 +67,8 @@ export const Register: React.FC = () => {
     const userData = {
       username: formData.username,
       email: formData.email,
-      phone: formData.phone
+      phone: formData.phone,
+      role: formData.role
     };
 
     localStorage.setItem('zhuohuan_user', JSON.stringify(userData));
@@ -167,6 +169,46 @@ export const Register: React.FC = () => {
                     {errors.phone}
                   </p>
                 )}
+              </div>
+
+              {/* User Type */}
+              <div className="space-y-2">
+                <Label className="text-green-700 font-medium">账户类型</Label>
+                <div className="flex gap-4 pt-1">
+                  <label className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 cursor-pointer transition-all flex-1 ${
+                    formData.role === 'user' ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-white hover:border-gray-300'
+                  }`}>
+                    <input type="radio" name="role" value="user" checked={formData.role === 'user'} onChange={handleChange} className="hidden" />
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                      formData.role === 'user' ? 'border-green-500' : 'border-gray-300'
+                    }`}>
+                      {formData.role === 'user' && <div className="w-2 h-2 rounded-full bg-green-500" />}
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-800">普通用户</span>
+                      <p className="text-xs text-gray-500">标准购物体验</p>
+                    </div>
+                  </label>
+                  <label className={`flex items-center gap-2 px-4 py-3 rounded-xl border-2 cursor-pointer transition-all flex-1 ${
+                    formData.role === 'vip' ? 'border-amber-400 bg-amber-50' : 'border-gray-200 bg-white hover:border-gray-300'
+                  }`}>
+                    <input type="radio" name="role" value="vip" checked={formData.role === 'vip'} onChange={handleChange} className="hidden" />
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                      formData.role === 'vip' ? 'border-amber-400' : 'border-gray-300'
+                    }`}>
+                      {formData.role === 'vip' && <div className="w-2 h-2 rounded-full bg-amber-400" />}
+                    </div>
+                    <div>
+                      <span className="font-medium text-amber-700">
+                        <svg className="w-3.5 h-3.5 inline mr-0.5 -mt-0.5" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16l-6.4 4.8L8 14l-6-4.8h7.6z" />
+                        </svg>
+                        VIP 用户
+                      </span>
+                      <p className="text-xs text-amber-600">专属折扣与特权</p>
+                    </div>
+                  </label>
+                </div>
               </div>
 
               {/* Password */}

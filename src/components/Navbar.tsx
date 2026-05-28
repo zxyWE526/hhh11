@@ -11,10 +11,17 @@ export const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
     const userData = localStorage.getItem('zhuohuan_user');
     setIsLoggedIn(!!userData);
+    if (userData) {
+      const user = JSON.parse(userData);
+      setUserRole(user.role || '');
+    } else {
+      setUserRole('');
+    }
   }, [location.pathname]);
 
   useEffect(() => {
@@ -85,7 +92,17 @@ export const Navbar: React.FC = () => {
               )}
             </Button>
 
-            <span className="text-gray-600 text-sm border-l pl-4">
+            <span className="text-gray-600 text-sm border-l pl-4 flex items-center gap-1.5">
+              {isLoggedIn ? (
+                userRole === 'vip' ? (
+                  <span className="inline-flex items-center gap-1 text-amber-700 font-medium">
+                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16l-6.4 4.8L8 14l-6-4.8h7.6z" />
+                    </svg>
+                    VIP
+                  </span>
+                ) : null
+              ) : null}
               {isLoggedIn ? '已登录' : '游客'}
             </span>
 
