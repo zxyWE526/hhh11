@@ -38,6 +38,7 @@ export const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [orders, setOrders] = useState<any[]>([]);
   const [messages, setMessages] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [showOrderDetail, setShowOrderDetail] = useState(false);
 
@@ -63,6 +64,8 @@ export const AdminDashboard: React.FC = () => {
     setOrders(allOrders);
     const allMessages = JSON.parse(localStorage.getItem('zhuohuan_messages') || '[]');
     setMessages(allMessages);
+    const allUsers = JSON.parse(localStorage.getItem('zhuohuan_users') || '[]');
+    setUsers(allUsers);
     setProducts(loadProducts());
   }, [navigate]);
 
@@ -148,6 +151,7 @@ export const AdminDashboard: React.FC = () => {
             { key: 'overview', label: '数据总览', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
             { key: 'orders', label: '订单管理', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
             { key: 'products', label: '商品管理', icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4' },
+            { key: 'users', label: '用户管理', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
             { key: 'messages', label: '用户留言', icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z' },
           ].map(item => (
             <Button
@@ -174,12 +178,14 @@ export const AdminDashboard: React.FC = () => {
                 {activeTab === 'overview' && '数据总览'}
                 {activeTab === 'orders' && '订单管理'}
                 {activeTab === 'products' && '商品管理'}
+                {activeTab === 'users' && '用户管理'}
                 {activeTab === 'messages' && '用户留言'}
               </h2>
               <p className="text-sm text-gray-400 mt-0.5">
                 {activeTab === 'overview' && `共 ${orders.length} 个订单，${products.length} 件商品`}
                 {activeTab === 'orders' && `${pendingOrders} 个待处理订单`}
                 {activeTab === 'products' && `${lowStock} 件商品库存不足`}
+                {activeTab === 'users' && `共 ${users.length} 个用户`}
                 {activeTab === 'messages' && `${messages.length} 条留言`}
               </p>
             </div>
@@ -412,6 +418,72 @@ export const AdminDashboard: React.FC = () => {
                         <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg">{msg.message}</p>
                       </div>
                     ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {activeTab === 'users' && (
+            <Card className="border-0 shadow-md">
+              <CardContent className="p-6">
+                {users.length === 0 ? (
+                  <p className="text-gray-300 text-center py-12">暂无注册用户</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="border-b border-gray-200 text-gray-500 text-sm">
+                          <th className="pb-3 font-medium">用户名</th>
+                          <th className="pb-3 font-medium">邮箱</th>
+                          <th className="pb-3 font-medium">手机号</th>
+                          <th className="pb-3 font-medium">注册时间</th>
+                          <th className="pb-3 font-medium">账户类型</th>
+                          <th className="pb-3 font-medium">操作</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {users.map((u, i) => (
+                          <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <td className="py-4 font-medium text-gray-800">{u.username}</td>
+                            <td className="py-4 text-gray-600">{u.email || '-'}</td>
+                            <td className="py-4 text-gray-600">{u.phone || '-'}</td>
+                            <td className="py-4 text-gray-500 text-sm">{u.createdAt ? new Date(u.createdAt).toLocaleString('zh-CN') : '-'}</td>
+                            <td className="py-4">
+                              <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${
+                                u.role === 'vip' ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-600'
+                              }`}>
+                                {u.role === 'vip' && (
+                                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16l-6.4 4.8L8 14l-6-4.8h7.6z" />
+                                  </svg>
+                                )}
+                                {u.role === 'vip' ? 'VIP 用户' : '普通用户'}
+                              </span>
+                            </td>
+                            <td className="py-4">
+                              <Button
+                                size="sm"
+                                variant={u.role === 'vip' ? 'outline' : 'default'}
+                                className={u.role === 'vip'
+                                  ? 'border-gray-300 text-gray-600 hover:bg-gray-100'
+                                  : 'bg-amber-500 hover:bg-amber-600 text-white'
+                                }
+                                onClick={() => {
+                                  const updated = users.map((x) =>
+                                    x.username === u.username ? { ...x, role: x.role === 'vip' ? 'user' : 'vip' } : x
+                                  );
+                                  setUsers(updated);
+                                  localStorage.setItem('zhuohuan_users', JSON.stringify(updated));
+                                }}
+                              >
+                                {u.role === 'vip' ? '取消 VIP' : '设为 VIP'}
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 )}
               </CardContent>

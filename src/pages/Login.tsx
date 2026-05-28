@@ -61,12 +61,24 @@ export const Login: React.FC = () => {
     const role = userInfo?.role || 'user';
     setUserRole(role);
 
-    localStorage.setItem('zhuohuan_user', JSON.stringify({
+    const userData = {
       username: formData.username,
       email: formData.username.includes('@') ? formData.username : (userInfo?.email || ''),
       phone: userInfo?.phone || '',
-      role
-    }));
+      role,
+      createdAt: userInfo?.createdAt || new Date().toISOString()
+    };
+
+    localStorage.setItem('zhuohuan_user', JSON.stringify(userData));
+
+    const users = JSON.parse(localStorage.getItem('zhuohuan_users') || '[]');
+    const idx = users.findIndex((u: any) => u.username === formData.username);
+    if (idx >= 0) {
+      users[idx] = { ...users[idx], ...userData };
+    } else {
+      users.push(userData);
+    }
+    localStorage.setItem('zhuohuan_users', JSON.stringify(users));
     localStorage.setItem('zhuohuan_token', 'mock_token_' + Date.now());
 
     setIsSubmitting(false);
