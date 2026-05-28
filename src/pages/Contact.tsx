@@ -34,8 +34,7 @@ export const Contact: React.FC = () => {
       {/* Hero */}
       <section className="bg-gradient-to-r from-green-700 to-green-600 text-white py-16 mb-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <img src="/logo.png" alt="陕西朱鹮酒业" className="h-24 mx-auto mb-6" />
-          <h1 className="text-5xl font-bold mb-4">陕西朱鹮酒业</h1>
+          <h1 className="text-5xl font-bold mb-4">联系我们</h1>
           <p className="text-xl text-green-100">期待与您合作共赢</p>
         </div>
       </section>
