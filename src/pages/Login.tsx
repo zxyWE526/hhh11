@@ -89,9 +89,6 @@ export const Login: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
-    if (name === 'username') {
-      setIsAdmin(value === 'admin');
-    }
   };
 
   useEffect(() => {
@@ -219,6 +216,14 @@ export const Login: React.FC = () => {
               >
                 {isSubmitting ? '登录中...' : isAdmin ? '登录管理后台' : '立即登录'}
               </Button>
+
+              <button
+                type="button"
+                onClick={() => { setIsAdmin(!isAdmin); setErrors({}); }}
+                className="text-sm text-gray-400 hover:text-green-600 transition-colors"
+              >
+                {isAdmin ? '← 普通用户登录' : '管理员登录 →'}
+              </button>
 
               {!isAdmin && (
                 <>
