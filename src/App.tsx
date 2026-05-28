@@ -18,33 +18,39 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2800);
-    return () => clearTimeout(timer);
+    const fadeTimer = setTimeout(() => setFadeOut(true), 2400);
+    const removeTimer = setTimeout(() => setShowSplash(false), 3000);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
   }, []);
 
   return (
     <>
       {showSplash && (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-green-800 via-green-700 to-green-600">
-          <div className="animate-splash-logo">
-            <img src="/logo.png" alt="陕西朱鹮酒业" className="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-2xl" />
+        <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-700 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
+          <div className="absolute inset-0">
+            <img
+              src="https://picsum.photos/seed/morning-mist/1920/1080"
+              alt=""
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-green-50/60 to-emerald-100/50" />
           </div>
-          <h1 className="mt-6 text-4xl md:text-5xl font-bold text-white tracking-widest animate-splash-title"
-            style={{ fontFamily: 'SimSun, STSong, "Noto Serif CJK SC", serif' }}>
-            陕西朱鹮酒业
-          </h1>
-          <p className="mt-4 text-lg md:text-xl text-green-200 tracking-[0.2em] animate-splash-sub">
-            朱鹮故乡 · 有机佳酿
-          </p>
-          <div className="absolute bottom-12 animate-splash-bar">
-            <div className="w-16 h-1 bg-white/40 rounded-full overflow-hidden">
-              <div className="h-full bg-white rounded-full animate-splash-progress" />
-            </div>
+          <div className="relative z-10 flex flex-col items-center">
+            <img src="/logo.png" alt="陕西朱鹮酒业" className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl animate-splash-logo" />
+            <h1 className="mt-5 text-3xl md:text-4xl font-bold text-green-800 tracking-widest animate-splash-title"
+              style={{ fontFamily: 'SimSun, STSong, "Noto Serif CJK SC", serif' }}>
+              陕西朱鹮酒业
+            </h1>
+            <p className="mt-3 text-base md:text-lg text-green-600 tracking-[0.15em] animate-splash-sub">
+              朱鹮故乡 · 有机佳酿
+            </p>
           </div>
-        </div>
-      )}
       <CartProvider>
       <Router>
         <div className="flex flex-col min-h-screen">
