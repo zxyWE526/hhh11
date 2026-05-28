@@ -46,6 +46,7 @@ export const AdminDashboard: React.FC = () => {
   const [showEditProduct, setShowEditProduct] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [newProduct, setNewProduct] = useState<any>({ ...defaultNewProduct });
+  const [userFilter, setUserFilter] = useState('all');
 
   const loadProducts = () => {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -427,23 +428,51 @@ export const AdminDashboard: React.FC = () => {
           {activeTab === 'users' && (
             <Card className="border-0 shadow-md">
               <CardContent className="p-6">
-                {users.length === 0 ? (
-                  <p className="text-gray-300 text-center py-12">暂无注册用户</p>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                      <thead>
-                        <tr className="border-b border-gray-200 text-gray-500 text-sm">
-                          <th className="pb-3 font-medium">用户名</th>
-                          <th className="pb-3 font-medium">邮箱</th>
-                          <th className="pb-3 font-medium">手机号</th>
-                          <th className="pb-3 font-medium">注册时间</th>
-                          <th className="pb-3 font-medium">账户类型</th>
-                          <th className="pb-3 font-medium">操作</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {users.map((u, i) => (
+                <div className="flex gap-2 mb-4">
+                  <Button
+                    size="sm"
+                    variant={userFilter === 'all' ? 'default' : 'outline'}
+                    className={userFilter === 'all' ? 'bg-green-600 hover:bg-green-700' : 'border-gray-300'}
+                    onClick={() => setUserFilter('all')}
+                  >
+                    全部
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={userFilter === 'vip' ? 'default' : 'outline'}
+                    className={userFilter === 'vip' ? 'bg-amber-500 hover:bg-amber-600' : 'border-gray-300'}
+                    onClick={() => setUserFilter('vip')}
+                  >
+                    VIP 用户
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant={userFilter === 'user' ? 'default' : 'outline'}
+                    className={userFilter === 'user' ? 'bg-gray-600 hover:bg-gray-700' : 'border-gray-300'}
+                    onClick={() => setUserFilter('user')}
+                  >
+                    普通用户
+                  </Button>
+                </div>
+                {(() => {
+                  const filteredUsers = userFilter === 'all' ? users : users.filter(u => u.role === userFilter);
+                  return filteredUsers.length === 0 ? (
+                    <p className="text-gray-300 text-center py-12">暂无匹配用户</p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left">
+                        <thead>
+                          <tr className="border-b border-gray-200 text-gray-500 text-sm">
+                            <th className="pb-3 font-medium">用户名</th>
+                            <th className="pb-3 font-medium">邮箱</th>
+                            <th className="pb-3 font-medium">手机号</th>
+                            <th className="pb-3 font-medium">注册时间</th>
+                            <th className="pb-3 font-medium">账户类型</th>
+                            <th className="pb-3 font-medium">操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredUsers.map((u, i) => (
                           <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                             <td className="py-4 font-medium text-gray-800">{u.username}</td>
                             <td className="py-4 text-gray-600">{u.email || '-'}</td>
@@ -486,6 +515,7 @@ export const AdminDashboard: React.FC = () => {
                     </table>
                   </div>
                 )}
+                )()}
               </CardContent>
             </Card>
           )}
