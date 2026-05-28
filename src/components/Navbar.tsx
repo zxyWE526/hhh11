@@ -9,7 +9,6 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const { getCartCount } = useCart();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userRole, setUserRole] = useState('');
 
@@ -23,14 +22,6 @@ export const Navbar: React.FC = () => {
       setUserRole('');
     }
   }, [location.pathname]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('zhuohuan_user');
@@ -49,11 +40,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-1.5'
-          : 'bg-white/80 backdrop-blur-sm shadow-md py-2.5'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-md py-2.5"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
