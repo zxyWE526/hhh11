@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { CartProvider } from "./hooks/useCart";
 import Navbar from "./components/Navbar";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
@@ -16,8 +17,35 @@ import Orders from "./pages/Orders";
 import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2800);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <CartProvider>
+    <>
+      {showSplash && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-br from-green-800 via-green-700 to-green-600">
+          <div className="animate-splash-logo">
+            <img src="/logo.png" alt="陕西朱鹮酒业" className="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-2xl" />
+          </div>
+          <h1 className="mt-6 text-4xl md:text-5xl font-bold text-white tracking-widest animate-splash-title"
+            style={{ fontFamily: 'SimSun, STSong, "Noto Serif CJK SC", serif' }}>
+            陕西朱鹮酒业
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-green-200 tracking-[0.2em] animate-splash-sub">
+            朱鹮故乡 · 有机佳酿
+          </p>
+          <div className="absolute bottom-12 animate-splash-bar">
+            <div className="w-16 h-1 bg-white/40 rounded-full overflow-hidden">
+              <div className="h-full bg-white rounded-full animate-splash-progress" />
+            </div>
+          </div>
+        </div>
+      )}
+      <CartProvider>
       <Router>
         <div className="flex flex-col min-h-screen">
           <Routes>

@@ -148,3 +148,57 @@ body {
   fill: var(--zhuohuan-green-400);
   opacity: 0.1;
 }
+
+/* Splash Animation */
+@keyframes splash-logo {
+  0% { opacity: 0; transform: scale(0.5) translateY(30px); }
+  40% { opacity: 1; transform: scale(1.05) translateY(0); }
+  60% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes splash-title {
+  0% { opacity: 0; transform: translateY(20px); }
+  50% { opacity: 0; transform: translateY(20px); }
+  70% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-sub {
+  0% { opacity: 0; transform: translateY(15px); }
+  60% { opacity: 0; transform: translateY(15px); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-bar {
+  0% { opacity: 0; }
+  60% { opacity: 0; }
+  80% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes splash-progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.animate-splash-logo {
+  animation: splash-logo 1.2s ease-out forwards;
+}
+
+.animate-splash-title {
+  animation: splash-title 1.6s ease-out forwards;
+}
+
+.animate-splash-sub {
+  animation: splash-sub 1.8s ease-out forwards;
+}
+
+.animate-splash-bar {
+  animation: splash-bar 1.8s ease-out forwards;
+}
+
+.animate-splash-progress {
+  animation: splash-progress 2.5s linear forwards;
+}
