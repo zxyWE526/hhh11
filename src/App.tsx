@@ -35,11 +35,11 @@ function App() {
         <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-700 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
           <div className="absolute inset-0">
             <img
-              src="https://picsum.photos/seed/bamboo-grove/1920/1080"
+              src="https://picsum.photos/seed/rice-terraces/1920/1080"
               alt=""
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-green-50/60 to-emerald-100/50" />
+            <div className="absolute inset-0 bg-black/20" />
           </div>
           <div className="relative z-10 flex flex-col items-center">
             <img src="/logo.png" alt="陕西朱鹮酒业" className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-xl animate-splash-logo" />
