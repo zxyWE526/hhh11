@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { CartProvider } from "./hooks/useCart";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -13,7 +13,6 @@ import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
-import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
@@ -82,7 +81,7 @@ function App() {
             } />
 
             {/* 后台路由 */}
-            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/login" element={<Navigate to="/login" replace />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
 
