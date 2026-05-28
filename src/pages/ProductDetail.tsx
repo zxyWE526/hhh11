@@ -73,6 +73,9 @@ export const ProductDetail: React.FC = () => {
                     {product.badge}
                   </Badge>
                 )}
+                <Badge className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 text-lg animate-pulse">
+                  立即购买
+                </Badge>
               </div>
             </div>
 
