@@ -103,7 +103,6 @@ export const Navbar: React.FC = () => {
                   </span>
                 ) : null
               ) : null}
-              {isLoggedIn ? '已登录' : '游客'}
             </span>
 
             {isLoggedIn ? (
