@@ -39,6 +39,11 @@ export const ProductDetail: React.FC = () => {
     alert(`已将 ${quantity} 件 ${product.name} 加入购物车！`);
   };
 
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    navigate('/checkout');
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -175,6 +180,13 @@ export const ProductDetail: React.FC = () => {
                   加入购物车
                 </Button>
               </div>
+              <Button
+                onClick={handleBuyNow}
+                size="lg"
+                className="w-full mt-3 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-lg py-6 shadow-lg"
+              >
+                立即购买
+              </Button>
             </div>
           </div>
         </div>
