@@ -52,14 +52,17 @@ export const Checkout: React.FC = () => {
     address: ''
   });
   const [payMethod, setPayMethod] = useState('wechat');
+  const [payTotal, setPayTotal] = useState(0);
 
   const handleSubmitOrder = () => {
+    const total = getCartTotal();
+    setPayTotal(total);
     const orders = JSON.parse(localStorage.getItem('zhuohuan_orders') || '[]');
     const newOrder = {
       id: 'ORD' + Date.now(),
       user: user.username || 'guest',
       items: cart,
-      total: getCartTotal(),
+      total,
       status: 'pending',
       createdAt: new Date().toISOString(),
       address: formData.address,
@@ -153,7 +156,7 @@ export const Checkout: React.FC = () => {
           <CardContent className="p-8">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-1">确认支付</h2>
-              <p className="text-4xl font-bold text-green-600">¥{getCartTotal()}</p>
+              <p className="text-4xl font-bold text-green-600">¥{payTotal}</p>
             </div>
 
             <div className="space-y-3 mb-6">
@@ -187,7 +190,7 @@ export const Checkout: React.FC = () => {
               onClick={handlePay}
               className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white py-6 text-lg mb-3"
             >
-              确认支付 ¥{getCartTotal()}
+              确认支付 ¥{payTotal}
             </Button>
             <Button
               variant="ghost"
