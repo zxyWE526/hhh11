@@ -109,22 +109,6 @@ export const AdminLogin: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-emerald-50 to-green-50 p-4 rounded-xl border border-emerald-100">
-              <div className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <div>
-                  <p className="text-sm font-medium text-emerald-800">默认管理员账号</p>
-                  <p className="text-sm text-emerald-700 mt-1">
-                    账号：<code className="bg-emerald-100/80 px-2 py-0.5 rounded font-mono">admin</code>
-                    <br />
-                    密码：<code className="bg-emerald-100/80 px-2 py-0.5 rounded font-mono">admin123</code>
-                  </p>
-                </div>
-              </div>
-            </div>
-
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white py-6 text-lg shadow-lg shadow-emerald-200/50"
