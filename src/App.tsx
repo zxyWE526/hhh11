@@ -132,11 +132,6 @@ function Footer() {
               <li>电话：400-888-6666</li>
               <li>邮箱：info@zhuohuan-wine.com</li>
               <li>地址：陕西省汉中市洋县</li>
-              <li className="mt-3">
-                <a href="/admin/login" className="text-green-400 hover:text-green-300 text-xs">
-                  管理后台登录 →
-                </a>
-              </li>
             </ul>
           </div>
         </div>
