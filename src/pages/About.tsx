@@ -8,7 +8,7 @@ export const About: React.FC = () => {
       <section className="relative h-[400px] bg-gradient-to-r from-green-800 to-green-600 flex items-center justify-center">
         <div className="absolute inset-0 opacity-20">
           <img
-            src="https://picsum.photos/seed/farm/1600/400"
+            src="https://picsum.photos/seed/mountain-rice/1600/400"
             alt="Background"
             className="w-full h-full object-cover"
           />
@@ -27,7 +27,7 @@ export const About: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-in-left">
               <img
-                src="https://picsum.photos/seed/brewery/600/400"
+                src="https://picsum.photos/seed/green-valley/600/400"
                 alt="酒厂风光"
                 className="rounded-2xl shadow-2xl "
               />
@@ -109,10 +109,10 @@ export const About: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step: '01', title: '选料', desc: '精选秦岭有机黑米、糯米', image: 'https://picsum.photos/seed/grain/300/200' },
-              { step: '02', title: '浸泡', desc: '山泉水浸泡 24 小时', image: 'https://picsum.photos/seed/water/300/200' },
-              { step: '03', title: '发酵', desc: '恒温发酵 180 天', image: 'https://picsum.photos/seed/ferment/300/200' },
-              { step: '04', title: '陈酿', desc: '橡木桶陈年储藏', image: 'https://picsum.photos/seed/barrel2/300/200' }
+              { step: '01', title: '选料', desc: '精选秦岭有机黑米、糯米', image: 'https://picsum.photos/seed/grain-field/300/200' },
+              { step: '02', title: '浸泡', desc: '山泉水浸泡 24 小时', image: 'https://picsum.photos/seed/clear-water/300/200' },
+              { step: '03', title: '发酵', desc: '恒温发酵 180 天', image: 'https://picsum.photos/seed/fermentation/300/200' },
+              { step: '04', title: '陈酿', desc: '橡木桶陈年储藏', image: 'https://picsum.photos/seed/barrel-room/300/200' }
             ].map((item, index) => (
               <div key={index} className="animate-fade-in-up overflow-hidden rounded-xl shadow-lg" style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className="relative">

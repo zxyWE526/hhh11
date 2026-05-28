@@ -7,19 +7,19 @@ import { loadProducts } from '@/data/products';
 
 const carouselSlides = [
   {
-    image: 'https://picsum.photos/seed/vineyard/1200/500',
+    image: 'https://picsum.photos/seed/rice-terraces/1200/500',
     title: '朱鹮故乡，有机佳酿',
     subtitle: '源自秦岭深处的自然馈赠',
     cta: '探索产品'
   },
   {
-    image: 'https://picsum.photos/seed/barrel/1200/500',
+    image: 'https://picsum.photos/seed/tea-plantation/1200/500',
     title: '传统工艺，现代科技',
     subtitle: '千年酿酒技艺的传承与创新',
     cta: '了解详情'
   },
   {
-    image: 'https://picsum.photos/seed/organic/1200/500',
+    image: 'https://picsum.photos/seed/bamboo-forest/1200/500',
     title: '有机种植，品质保证',
     subtitle: '从田间到餐桌的全程可追溯',
     cta: '查看详情'
