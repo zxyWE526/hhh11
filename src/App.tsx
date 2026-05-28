@@ -118,6 +118,7 @@ function App() {
         </div>
       </Router>
     </CartProvider>
+    </>
   );
 }
 
