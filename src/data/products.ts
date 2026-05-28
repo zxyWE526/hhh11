@@ -120,3 +120,13 @@ export const products: Product[] = [
 ];
 
 export const categories = ['全部', '黄酒', '黑米酒', '糯米酒', '养生酒', '礼盒', '年份酒'];
+
+const STORAGE_KEY = 'zhuohuan_admin_products';
+
+export function loadProducts(): Product[] {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) return JSON.parse(saved);
+  const withStock = products.map(p => ({ ...p, stock: Math.floor(Math.random() * 50 + 50) }));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(withStock));
+  return withStock;
+}

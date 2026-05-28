@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { products } from '@/data/products';
+import { loadProducts } from '@/data/products';
 import Navbar from '@/components/Navbar';
 import { useCart } from '@/hooks/useCart';
 
@@ -12,6 +12,11 @@ export const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [products, setProducts] = useState(loadProducts());
+
+  useEffect(() => {
+    setProducts(loadProducts());
+  }, []);
 
   const product = products.find(p => p.id === Number(id));
   const relatedProducts = products.filter(p => p.category === product?.category && p.id !== product?.id).slice(0, 3);

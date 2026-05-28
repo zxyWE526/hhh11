@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { products } from '@/data/products';
-
-const featuredProducts = products.slice(0, 3);
+import { loadProducts } from '@/data/products';
 
 const carouselSlides = [
   {
@@ -29,6 +27,12 @@ const carouselSlides = [
 ];
 
 export const Home: React.FC = () => {
+  const [products, setProducts] = useState(loadProducts());
+  const featuredProducts = useMemo(() => products.slice(0, 3), [products]);
+
+  useEffect(() => {
+    setProducts(loadProducts());
+  }, []);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {

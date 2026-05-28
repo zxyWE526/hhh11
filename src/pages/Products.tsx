@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { products, categories } from '@/data/products';
+import { loadProducts, categories } from '@/data/products';
 
 export const Products: React.FC = () => {
+  const [products, setProducts] = useState(loadProducts());
   const [selectedCategory, setSelectedCategory] = useState('全部');
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    setProducts(loadProducts());
+  }, []);
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = selectedCategory === '全部' || product.category === selectedCategory;
