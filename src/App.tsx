@@ -35,7 +35,7 @@ function App() {
         <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-700 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
           <div className="absolute inset-0">
             <img
-              src="https://picsum.photos/seed/morning-mist/1920/1080"
+              src="https://picsum.photos/seed/bamboo-grove/1920/1080"
               alt=""
               className="w-full h-full object-cover"
             />
