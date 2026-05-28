@@ -200,12 +200,6 @@ export const Login: React.FC = () => {
                   </p>
                 )}
               </div>
-
-              {isAdmin && (
-                <div className="text-center">
-                  <span className="text-xs text-gray-400">管理员账号：admin / admin123</span>
-                </div>
-              )}
             </CardContent>
 
             <CardFooter className="flex flex-col space-y-4 pt-2">
