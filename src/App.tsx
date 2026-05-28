@@ -51,6 +51,8 @@ function App() {
               朱鹮故乡 · 有机佳酿
             </p>
           </div>
+        </div>
+      )}
       <CartProvider>
       <Router>
         <div className="flex flex-col min-h-screen">
